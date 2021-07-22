@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<flowers xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://www.example.com/flowers"
+         xsd:schemaLocation="http://www.example.com/flowers flowers.xsd">
+
+    <annual-flower name="Marigolds" origin="Africa">
+        <visual-aspect>
+            <size>20</size>
+            <leaves-color>Green</leaves-color>
+            <blossom-color>Orange</blossom-color>
+        </visual-aspect>
+        <soil>GROUND</soil>
+        <growing-temperature>27</growing-temperature>
+        <is-light-loving>true</is-light-loving>
+        <watering>30</watering>
+        <multiplying>BY_SEED</multiplying>
+        <flowering-period>MAY</flowering-period>
+    </annual-flower>
+
+    <perennual-flower name="Asters" origin="China">
+        <visual-aspect>
+            <size>25</size>
+            <leaves-color>Green</leaves-color>
+            <blossom-color>Red</blossom-color>
+        </visual-aspect>
+        <soil>GROUND</soil>
+        <growing-temperature>28</growing-temperature>
+        <is-light-loving>false</is-light-loving>
+        <watering>40</watering>
+        <multiplying>BY_LEAVES</multiplying>
+        <is-wintering>true</is-wintering>
+    </perennual-flower>
+</flowers>
