@@ -4,11 +4,16 @@ import by.drapejny.task5.entity.AbstractTextComponent;
 import by.drapejny.task5.entity.TextComponentType;
 import by.drapejny.task5.entity.TextComposite;
 
-public class ParagraphParser implements TextParser {
+public class ParagraphParser extends BaseParser {
 
     private static final String PARAGRAPH_SPLIT_REGEX = "\n\t";
 
-    private TextParser nextParser = new SentenceParser();
+    public ParagraphParser() {
+    }
+
+    public ParagraphParser(BaseParser parser) {
+        nextParser = parser;
+    }
 
     @Override
     public void parse(AbstractTextComponent component, String data) {
