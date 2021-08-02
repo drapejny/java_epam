@@ -3,6 +3,7 @@ package by.drapejny.task5.service;
 import by.drapejny.task5.interpreter.Interpreter;
 import by.drapejny.task5.utils.PostfixNotationTransformer;
 
+import java.util.Comparator;
 import java.util.function.UnaryOperator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

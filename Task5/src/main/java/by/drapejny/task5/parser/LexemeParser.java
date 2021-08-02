@@ -4,14 +4,14 @@ import by.drapejny.task5.entity.AbstractTextComponent;
 import by.drapejny.task5.entity.TextComponentType;
 import by.drapejny.task5.entity.TextComposite;
 
-public class LexemeParser extends BaseParser {
+public class LexemeParser extends AbstractParser {
 
     private static final String LEXEME_SPLIT_REGEX = "\\s+";
 
     public LexemeParser() {
     }
 
-    public LexemeParser(BaseParser parser) {
+    public LexemeParser(AbstractParser parser) {
         nextParser = parser;
     }
 

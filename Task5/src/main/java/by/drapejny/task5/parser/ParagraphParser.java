@@ -4,14 +4,14 @@ import by.drapejny.task5.entity.AbstractTextComponent;
 import by.drapejny.task5.entity.TextComponentType;
 import by.drapejny.task5.entity.TextComposite;
 
-public class ParagraphParser extends BaseParser {
+public class ParagraphParser extends AbstractParser {
 
     private static final String PARAGRAPH_SPLIT_REGEX = "\n\\s{4}";
 
     public ParagraphParser() {
     }
 
-    public ParagraphParser(BaseParser parser) {
+    public ParagraphParser(AbstractParser parser) {
         nextParser = parser;
     }
 

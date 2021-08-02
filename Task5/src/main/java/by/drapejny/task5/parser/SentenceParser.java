@@ -4,14 +4,14 @@ import by.drapejny.task5.entity.AbstractTextComponent;
 import by.drapejny.task5.entity.TextComponentType;
 import by.drapejny.task5.entity.TextComposite;
 
-public class SentenceParser extends BaseParser  {
+public class SentenceParser extends AbstractParser {
 
     private static final String SENTENCE_SPLIT_REGEX = "(?<=\\!|\\?|\\.{3}|\\.)\\s|$";
 
     public SentenceParser() {
     }
 
-    public SentenceParser(BaseParser parser) {
+    public SentenceParser(AbstractParser parser) {
         nextParser = parser;
     }
 

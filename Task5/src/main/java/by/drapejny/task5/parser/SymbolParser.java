@@ -3,7 +3,7 @@ package by.drapejny.task5.parser;
 import by.drapejny.task5.entity.AbstractTextComponent;
 import by.drapejny.task5.entity.Symbol;
 
-public class SymbolParser extends BaseParser {
+public class SymbolParser extends AbstractParser {
 
     @Override
     public void parse(AbstractTextComponent component, String data) {

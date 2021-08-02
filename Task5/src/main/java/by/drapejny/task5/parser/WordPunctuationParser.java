@@ -4,10 +4,7 @@ import by.drapejny.task5.entity.AbstractTextComponent;
 import by.drapejny.task5.entity.TextComponentType;
 import by.drapejny.task5.entity.TextComposite;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-public class WordPunctuationParser extends BaseParser {
+public class WordPunctuationParser extends AbstractParser {
 
     private static final String WORD_PUNCTUATION_SPLIT_REXEX = "(?<=\\w)(?=\\W)|(?<=\\W)(?=\\w)|(?<=\\W)(?=\\W)";
 
