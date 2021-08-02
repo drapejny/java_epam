@@ -6,7 +6,7 @@ import by.drapejny.task5.entity.TextComposite;
 
 public class ParagraphParser extends BaseParser {
 
-    private static final String PARAGRAPH_SPLIT_REGEX = "\n\t";
+    private static final String PARAGRAPH_SPLIT_REGEX = "\n\\s{4}";
 
     public ParagraphParser() {
     }
@@ -21,7 +21,6 @@ public class ParagraphParser extends BaseParser {
         for (String paragraph : paragraphs) {
             TextComposite paragraphComposite = new TextComposite(TextComponentType.PARAGRAPH);
             component.add(paragraphComposite);
-
             nextParser.parse(paragraphComposite, paragraph);
         }
     }

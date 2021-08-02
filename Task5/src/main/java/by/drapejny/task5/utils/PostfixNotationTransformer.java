@@ -9,7 +9,6 @@ public class PostfixNotationTransformer {
 
     public String transform(String expression) {
         String[] tokens = expression.split(TOKEN_SPLIT_REGEX);
-        System.out.println(Arrays.toString(tokens));
         ArrayDeque<String> stack = new ArrayDeque<>();
         stack.push("#");
         String postfixExpression = "";

@@ -6,5 +6,13 @@ public abstract class BaseParser {
 
     protected BaseParser nextParser;
 
+    public BaseParser getNextParser(){
+        return nextParser;
+    }
+
+    public void setNextParser(BaseParser nextParser){
+        this.nextParser = nextParser;
+    }
+
     public abstract void parse(AbstractTextComponent component,String data);
 }
