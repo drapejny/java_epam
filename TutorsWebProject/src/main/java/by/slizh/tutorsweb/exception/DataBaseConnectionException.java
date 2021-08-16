@@ -6,6 +6,7 @@ public class DataBaseConnectionException extends Exception {
     public DataBaseConnectionException(){
         super();
     }
+
     public DataBaseConnectionException(String message) {
         super(message);
     }

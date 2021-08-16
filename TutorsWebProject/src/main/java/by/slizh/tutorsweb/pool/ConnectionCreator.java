@@ -15,7 +15,7 @@ public class ConnectionCreator {
     private static final Logger logger = LogManager.getLogger();
 
     private static final Properties properties = new Properties();
-    private static final String PATH_TO_PROPERTIES = "database/connection.properties";
+    private static final String PATH_TO_PROPERTIES = "database/database.properties";
     private static final String DATABASE_URL;
 
     static {

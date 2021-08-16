@@ -31,7 +31,7 @@ public class ConnectionPool {
     private BlockingQueue<ProxyConnection> givenAwayConnections;
 
     private static final int DEFAULT_POOL_SIZE = 32;
-    private static final String PATH_TO_PROPERTIES = "database/pool.properties";
+    private static final String PATH_TO_PROPERTIES = "database/database.properties";
 
     private ConnectionPool() {
         Properties properties = new Properties();
