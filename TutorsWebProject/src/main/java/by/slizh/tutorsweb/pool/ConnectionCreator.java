@@ -39,12 +39,15 @@ public class ConnectionCreator {
     }
 
     public static Connection createConnection() throws DataBaseConnectionException {
+        Connection connection;
         try {
-            return DriverManager.getConnection(DATABASE_URL, properties);
+            connection = DriverManager.getConnection(DATABASE_URL, properties);
         } catch (SQLException e) {
             logger.error("Can't connected to database by ULR: ", DATABASE_URL, e);
             throw new DataBaseConnectionException();
         }
+        ProxyConnection proxyConnection = new ProxyConnection(connection);
+        return proxyConnection;
     }
 }
 

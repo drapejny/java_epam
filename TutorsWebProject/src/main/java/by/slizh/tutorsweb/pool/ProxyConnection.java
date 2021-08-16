@@ -9,6 +9,10 @@ public class ProxyConnection implements Connection {
 
     Connection connection;
 
+    public ProxyConnection(Connection connection){
+        this.connection = connection;
+    }
+
     void reallyClose() throws SQLException {
         connection.close();
     }
