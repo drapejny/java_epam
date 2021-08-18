@@ -1,17 +1,11 @@
 package by.slizh.tutorsweb.pool;
 
-import by.slizh.tutorsweb.exception.DataBaseConnectionException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayDeque;
-import java.util.Properties;
-import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -22,34 +16,28 @@ public class ConnectionPool {
     private static final Logger logger = LogManager.getLogger();
 
     private static ConnectionPool instance;
-
     private static AtomicBoolean isCreated = new AtomicBoolean(false);
-
     private static final ReentrantLock locker = new ReentrantLock();
-
     private BlockingQueue<ProxyConnection> freeConnections;
     private BlockingQueue<ProxyConnection> givenAwayConnections;
-
-    private static final int DEFAULT_POOL_SIZE = 32;
     private static final String PATH_TO_PROPERTIES = "database/database.properties";
+    private static final int DEFAULT_POOL_SIZE = 32;
 
     private ConnectionPool() {
-        Properties properties = new Properties();
-        int poolSize = DEFAULT_POOL_SIZE;
-        try (InputStream inputStream = ConnectionPool.class.getClassLoader().getResourceAsStream(PATH_TO_PROPERTIES)) {
-            properties.load(inputStream);
-            poolSize = Integer.parseInt((String) properties.get("poolSize"));
-            freeConnections = new LinkedBlockingDeque<>(poolSize);
-            givenAwayConnections = new LinkedBlockingDeque<>();
-            for (int i = 0; i < poolSize; i++) {
-                ProxyConnection proxyConnection = (ProxyConnection) ConnectionCreator.createConnection();
-                freeConnections.offer(proxyConnection);
+        freeConnections = new LinkedBlockingDeque<>(DEFAULT_POOL_SIZE);
+        givenAwayConnections = new LinkedBlockingDeque<>(DEFAULT_POOL_SIZE);
+        for (int i = 0; i < DEFAULT_POOL_SIZE; i++) {
+            ProxyConnection proxyConnection = null;
+            try {
+                proxyConnection = (ProxyConnection) ConnectionCreator.createConnection();
+                freeConnections.put(proxyConnection);
+            } catch (SQLException e) {
+                logger.fatal("Can't create connection for connection pool", e);
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                logger.fatal("Something wrong with current thread",e);
+                throw new RuntimeException(e);
             }
-        } catch (IOException e) {
-            logger.warn("Property file not found, used default poolSize: ", poolSize, e);
-        } catch (DataBaseConnectionException e) {
-            logger.fatal("Create connection error: ", e);
-            throw new RuntimeException();
         }
     }
 
@@ -72,18 +60,23 @@ public class ConnectionPool {
         ProxyConnection proxyConnection = null;
         try {
             proxyConnection = freeConnections.take();
-            givenAwayConnections.offer(proxyConnection);
+            givenAwayConnections.put(proxyConnection);
         } catch (InterruptedException e) {
-            logger.error("Interrapted while waiting: ", e);
+            logger.error("Can't put connection",e);
             Thread.currentThread().interrupt();
         }
         return proxyConnection;
     }
 
     public void releaseConnection(Connection connection) {
-        if (connection.getClass() == ProxyConnection.class) {
+        if (connection instanceof ProxyConnection) {
             givenAwayConnections.remove(connection);
-            freeConnections.offer((ProxyConnection) connection);
+            try {
+                freeConnections.put((ProxyConnection) connection);
+            } catch (InterruptedException e) {
+                logger.error("Can't put connection",e);
+                Thread.currentThread().interrupt();
+            }
         } else {
             logger.fatal("Wrong connection is detected, expected ProxyConnection object");
             throw new RuntimeException();
@@ -91,7 +84,7 @@ public class ConnectionPool {
     }
 
     public void destroyPool() {
-        for (int i = 0; i < freeConnections.size(); i++) {
+        for (int i = 0; i < DEFAULT_POOL_SIZE; i++) {
             try {
                 freeConnections.take().reallyClose();
             } catch (SQLException e) {
